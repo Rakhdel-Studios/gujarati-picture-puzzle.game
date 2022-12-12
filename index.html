@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Gujarati Picture Puzzle</title>
+</head>
+
+<body>
+  <div id="puzzle">
+    <h2>Submit Puzzle</h2>
+    <div id="puzzle-form">
+      <form
+        action="https://prod-22.canadacentral.logic.azure.com:443/workflows/deabb69c68db4fb9a8fda9c0fbd78ee1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=idWGB562Jjoqmo6TBnJqf0DBHphHx8SSDiMay1F7560"
+        method="POST">
+        <p>
+          <input type="text" name="puzzleSolution" placeholder="Puzzle Solution" required />
+        </p>
+        <p>
+          <input type="text" name="Meaning" placeholder="Puzzle Meaning" />
+        </p>
+        <p>
+        <ul>
+          <li><input type="text" name="credits" placeholder="Image Url 1" pattern="" title="" required/></li>
+          <li><input type="text" name="credits" placeholder="Image Url 2" pattern="" title="" required/></li>
+          <li><input type="text" name="credits" placeholder="Image Url 3" pattern="" title="" required/></li>
+          <li><input type="text" name="credits" placeholder="Image Url 4" pattern="" title="" required/></li>
+        </ul>
+        </p>
+        <p>
+          <input type="email" name="email" placeholder="E-mail" />
+        </p>
+        <p>
+          <button type="submit">Send</button>
+        </p>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
