@@ -3,64 +3,191 @@
 <head>
   <meta charset="utf-8" />
   <title>Gujarati Picture Puzzle</title>
+  <style>
+
+    label {
+      padding: 12px 12px 12px 0;
+      display: inline-block;
+    }
+
+    input[type=text],
+    select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=url],
+    select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=email],
+    select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .container {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    
+    .col-25 {
+      float: left;
+      width: 25%;
+      margin-top: 6px;
+    }
+    
+    .col-75 {
+      float: left;
+      width: 75%;
+      margin-top: 6px;
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+    }
+
+    div {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+
+    div.gallery {
+      margin: 5px;
+      border: 1px solid #ccc;
+      float: left;
+      width: 21%;
+    }
+
+    div.gallery:hover {
+      border: 1px solid #777;
+    }
+
+    div.gallery img {
+      width: 100%;
+      height: 400px;
+    }
+
+    div.desc {
+      padding: 15px;
+      text-align: center;
+    }
+  </style>
+
 </head>
 
 <body>
   <div id="puzzle">
-    <h2>Submit Puzzle</h2>
+    <h2 style="text-align: center;">Submit Puzzle</h2>
     <div id="puzzle-form">
-      <form
-        action="https://prod-04.centralus.logic.azure.com:443/workflows/5121a0c526f4484d8e983598020b1fbf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=V3DQOKzLK06es3LjY7x5S858PywpOm8fFNaKlRSRMlA"
-        method="POST">
+      <form>
         <p>
+          <label for="puzzleSolution">Puzzle Solution</label> 
           <input type="text" name="puzzleSolution" placeholder="Puzzle Solution" required />
         </p>
         <p>
+          <label for="englishTranslation">English Translation</label>
           <input type="text" name="englishTranslation" placeholder="Puzzle English Translation" />
         </p>
         <p>
+          <label for="gujaratiDefinition">Gujarati Meaning/Definition</label>
           <input type="text" name="gujaratiDefinition" placeholder="Puzzle Meaning" />
         </p>
         <p>
-        <ul>
-          <li><input type="url" name="credits" id="1" placeholder="Image Url 1" pattern="https?://.+" title="" required/></li>
-          <li><input type="url" name="credits" id="2" placeholder="Image Url 2" pattern="https?://.+" title="" required/></li>
-          <li><input type="url" name="credits" id="3" placeholder="Image Url 3" pattern="https?://.+" title="" required/></li>
-          <li><input type="url" name="credits" id="4" placeholder="Image Url 4" pattern="https?://.+" title="" required/></li>
-        </ul>
+          <label for="credits">Image Credits Urls</label>
+          <ol>
+            <li><input type="url" name="credits" id="1" placeholder="Image Url 1" pattern="https?://.+" title=""
+                required /></li>
+            <li><input type="url" name="credits" id="2" placeholder="Image Url 2" pattern="https?://.+" title=""
+                required /></li>
+            <li><input type="url" name="credits" id="3" placeholder="Image Url 3" pattern="https?://.+" title=""
+                required /></li>
+            <li><input type="url" name="credits" id="4" placeholder="Image Url 4" pattern="https?://.+" title=""
+                required /></li>
+          </ol>
         </p>
         <p>
+          <label for="email">Email</label>
           <input type="email" name="email" placeholder="E-mail" />
         </p>
         <p>
-          <button type="submit">Send</button>
+          <input type="submit" value="Send">
         </p>
       </form>
     </div>
     <div id="image-preview">
-      <table width="400px" align="center" border=0>
-        <tr>
-          <td align="center">
-            <img id="displayarea1" alt="" width="200" height="200"/>
-          </td>
-          <td align="center">
-            <img id="displayarea2" alt="" width="200" height="200"/>
-          </td>
-        </tr>
-        <tr>
-          <td align="center">
-            <img id="displayarea3" alt="" width="200" height="200"/>
-          </td>
-          <td align="center">
-            <img id="displayarea4" alt="" width="200" height="200"/>
-          </td>
-        </tr>
-      </table>
+      <div class="gallery">
+        <a target="_blank">
+          <img id="imageUrl1" alt="" width="600" height="400">
+        </a>
+        <div class="desc">Add a description of the image here</div>
+      </div>
+
+      <div class="gallery">
+        <a target="_blank">
+          <img id="imageUrl2" alt="" width="600" height="400">
+        </a>
+        <div class="desc">Add a description of the image here</div>
+      </div>
+
+      <div class="gallery">
+        <a target="_blank">
+          <img id="imageUrl3" alt="" width="600" height="400">
+        </a>
+        <div class="desc">Add a description of the image here</div>
+      </div>
+
+      <div class="gallery">
+        <a target="_blank">
+          <img id="imageUrl4" alt="" width="600" height="400">
+        </a>
+        <div class="desc">Add a description of the image here</div>
+      </div>
     </div>
   </div>
 </body>
 
-<!-- <script src="./my.js" /> -->
 <script>
   function handleSubmit(event) {
     event.preventDefault();
@@ -71,9 +198,7 @@
 
     value.credits = data.getAll("credits");
 
-    value.credits.forEach(checkImage);
-
-    display();
+    display(value.credits);
 
     console.log({ value });
 
@@ -88,26 +213,41 @@
 
   function checkImage(url) {
     var image = new Image();
-    image.onload = function() {
+    image.onload = function () {
       if (this.width > 0) {
         console.log("image exists");
-        return image;
+        return true;
       }
     }
-    image.onerror = function() {
+    image.onerror = function () {
       console.log("image doesn't exist");
-      alert("Please enter your image url properly.");
-      credits.id.focus();
       return false;
     }
     image.src = url;
+    return true;
   }
 
-  function display() {
-    document.getElementById("displayarea1").src = document.getElementById("1").value;
-    document.getElementById("displayarea2").src = document.getElementById("2").value;
-    document.getElementById("displayarea3").src = document.getElementById("3").value;
-    document.getElementById("displayarea4").src = document.getElementById("4").value;
+  function display(credits) {
+    if (checkImage(credits[0])) {
+      document.getElementById("imageUrl1").src = credits[0];
+    } else {
+      document.getElementById("imageUrl1").alt = "Invalid Url Specified";
+    }
+    if (checkImage(credits[1])) {
+      document.getElementById("imageUrl2").src = credits[1];
+    } else {
+      document.getElementById("imageUrl2").alt = "Invalid Url Specified";
+    }
+    if (checkImage(credits[2])) {
+      document.getElementById("imageUrl3").src = credits[2];
+    } else {
+      document.getElementById("imageUrl3").alt = "Invalid Url Specified";
+    }
+    if (checkImage(credits[3])) {
+      document.getElementById("imageUrl4").src = credits[3];
+    } else {
+      document.getElementById("imageUrl4").alt = "Invalid Url Specified";
+    }
   }
 
   const form = document.querySelector('form');
