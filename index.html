@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 
 <head>
   <meta charset="utf-8" />
@@ -11,20 +10,23 @@
     <h2>Submit Puzzle</h2>
     <div id="puzzle-form">
       <form
-        action="https://prod-22.canadacentral.logic.azure.com:443/workflows/deabb69c68db4fb9a8fda9c0fbd78ee1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=idWGB562Jjoqmo6TBnJqf0DBHphHx8SSDiMay1F7560"
+        action="https://prod-04.centralus.logic.azure.com:443/workflows/5121a0c526f4484d8e983598020b1fbf/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=V3DQOKzLK06es3LjY7x5S858PywpOm8fFNaKlRSRMlA"
         method="POST">
         <p>
           <input type="text" name="puzzleSolution" placeholder="Puzzle Solution" required />
         </p>
         <p>
-          <input type="text" name="Meaning" placeholder="Puzzle Meaning" />
+          <input type="text" name="englishTranslation" placeholder="Puzzle English Translation" />
+        </p>
+        <p>
+          <input type="text" name="gujaratiDefinition" placeholder="Puzzle Meaning" />
         </p>
         <p>
         <ul>
-          <li><input type="text" name="credits" placeholder="Image Url 1" pattern="" title="" required/></li>
-          <li><input type="text" name="credits" placeholder="Image Url 2" pattern="" title="" required/></li>
-          <li><input type="text" name="credits" placeholder="Image Url 3" pattern="" title="" required/></li>
-          <li><input type="text" name="credits" placeholder="Image Url 4" pattern="" title="" required/></li>
+          <li><input type="url" name="credits" id="1" placeholder="Image Url 1" pattern="https?://.+" title="" required/></li>
+          <li><input type="url" name="credits" id="2" placeholder="Image Url 2" pattern="https?://.+" title="" required/></li>
+          <li><input type="url" name="credits" id="3" placeholder="Image Url 3" pattern="https?://.+" title="" required/></li>
+          <li><input type="url" name="credits" id="4" placeholder="Image Url 4" pattern="https?://.+" title="" required/></li>
         </ul>
         </p>
         <p>
@@ -35,7 +37,81 @@
         </p>
       </form>
     </div>
+    <div id="image-preview">
+      <table width="400px" align="center" border=0>
+        <tr>
+          <td align="center">
+            <img id="displayarea1" alt="" width="200" height="200"/>
+          </td>
+          <td align="center">
+            <img id="displayarea2" alt="" width="200" height="200"/>
+          </td>
+        </tr>
+        <tr>
+          <td align="center">
+            <img id="displayarea3" alt="" width="200" height="200"/>
+          </td>
+          <td align="center">
+            <img id="displayarea4" alt="" width="200" height="200"/>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </body>
+
+<!-- <script src="./my.js" /> -->
+<script>
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const data = new FormData(event.target);
+
+    const value = Object.fromEntries(data.entries());
+
+    value.credits = data.getAll("credits");
+
+    value.credits.forEach(checkImage);
+
+    display();
+
+    console.log({ value });
+
+    fetch("https://prod-22.canadacentral.logic.azure.com:443/workflows/deabb69c68db4fb9a8fda9c0fbd78ee1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=idWGB562Jjoqmo6TBnJqf0DBHphHx8SSDiMay1F7560", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(value),
+    })
+  }
+
+  function checkImage(url) {
+    var image = new Image();
+    image.onload = function() {
+      if (this.width > 0) {
+        console.log("image exists");
+        return image;
+      }
+    }
+    image.onerror = function() {
+      console.log("image doesn't exist");
+      alert("Please enter your image url properly.");
+      credits.id.focus();
+      return false;
+    }
+    image.src = url;
+  }
+
+  function display() {
+    document.getElementById("displayarea1").src = document.getElementById("1").value;
+    document.getElementById("displayarea2").src = document.getElementById("2").value;
+    document.getElementById("displayarea3").src = document.getElementById("3").value;
+    document.getElementById("displayarea4").src = document.getElementById("4").value;
+  }
+
+  const form = document.querySelector('form');
+  form.addEventListener('submit', handleSubmit);
+</script>
 
 </html>
