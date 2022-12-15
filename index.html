@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <title>Gujarati Picture Puzzle</title>
   <style>
-
     label {
       padding: 12px 12px 12px 0;
       display: inline-block;
@@ -59,29 +58,32 @@
       background-color: #f2f2f2;
       padding: 20px;
     }
-    
+
     .col-25 {
       float: left;
       width: 25%;
       margin-top: 6px;
     }
-    
+
     .col-75 {
       float: left;
       width: 75%;
       margin-top: 6px;
     }
-    
+
     /* Clear floats after the columns */
     .row:after {
       content: "";
       display: table;
       clear: both;
     }
-    
+
     /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
     @media screen and (max-width: 600px) {
-      .col-25, .col-75, input[type=submit] {
+
+      .col-25,
+      .col-75,
+      input[type=submit] {
         width: 100%;
         margin-top: 0;
       }
@@ -97,7 +99,7 @@
       margin: 5px;
       border: 1px solid #ccc;
       float: left;
-      width: 21%;
+      width: 21.5%;
     }
 
     div.gallery:hover {
@@ -119,11 +121,11 @@
 
 <body>
   <div id="puzzle">
-    <h2 style="text-align: center;">Submit Puzzle</h2>
+    <h1 style="text-align: center;">Submit Puzzle</h1>
     <div id="puzzle-form">
       <form>
         <p>
-          <label for="puzzleSolution">Puzzle Solution</label> 
+          <label for="puzzleSolution">Puzzle Solution*</label>
           <input type="text" name="puzzleSolution" placeholder="Puzzle Solution" required />
         </p>
         <p>
@@ -135,17 +137,17 @@
           <input type="text" name="gujaratiDefinition" placeholder="Puzzle Meaning" />
         </p>
         <p>
-          <label for="credits">Image Credits Urls</label>
-          <ol>
-            <li><input type="url" name="credits" id="1" placeholder="Image Url 1" pattern="https?://.+" title=""
-                required /></li>
-            <li><input type="url" name="credits" id="2" placeholder="Image Url 2" pattern="https?://.+" title=""
-                required /></li>
-            <li><input type="url" name="credits" id="3" placeholder="Image Url 3" pattern="https?://.+" title=""
-                required /></li>
-            <li><input type="url" name="credits" id="4" placeholder="Image Url 4" pattern="https?://.+" title=""
-                required /></li>
-          </ol>
+          <label for="credits">Image Credits Urls*</label>
+        <ol>
+          <li><input type="url" name="credits" id="1" placeholder="Image Url 1" pattern="https?://.+"
+              onchange="display(this.value, 1)" required /></li>
+          <li><input type="url" name="credits" id="2" placeholder="Image Url 2" pattern="https?://.+"
+              onchange="display(this.value, 2)" required /></li>
+          <li><input type="url" name="credits" id="3" placeholder="Image Url 3" pattern="https?://.+"
+              onchange="display(this.value, 3)" required /></li>
+          <li><input type="url" name="credits" id="4" placeholder="Image Url 4" pattern="https?://.+"
+              onchange="display(this.value, 4)" required /></li>
+        </ol>
         </p>
         <p>
           <label for="email">Email</label>
@@ -161,28 +163,21 @@
         <a target="_blank">
           <img id="imageUrl1" alt="" width="600" height="400">
         </a>
-        <div class="desc">Add a description of the image here</div>
       </div>
-
       <div class="gallery">
         <a target="_blank">
           <img id="imageUrl2" alt="" width="600" height="400">
         </a>
-        <div class="desc">Add a description of the image here</div>
       </div>
-
       <div class="gallery">
         <a target="_blank">
           <img id="imageUrl3" alt="" width="600" height="400">
         </a>
-        <div class="desc">Add a description of the image here</div>
       </div>
-
       <div class="gallery">
         <a target="_blank">
           <img id="imageUrl4" alt="" width="600" height="400">
         </a>
-        <div class="desc">Add a description of the image here</div>
       </div>
     </div>
   </div>
@@ -196,11 +191,9 @@
 
     const value = Object.fromEntries(data.entries());
 
+    value.puzzleSolution = syllabify(value.puzzleSolution);
+
     value.credits = data.getAll("credits");
-
-    display(value.credits);
-
-    console.log({ value });
 
     fetch("https://prod-22.canadacentral.logic.azure.com:443/workflows/deabb69c68db4fb9a8fda9c0fbd78ee1/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=idWGB562Jjoqmo6TBnJqf0DBHphHx8SSDiMay1F7560", {
       method: "POST",
@@ -227,27 +220,81 @@
     return true;
   }
 
-  function display(credits) {
-    if (checkImage(credits[0])) {
-      document.getElementById("imageUrl1").src = credits[0];
+  function display(credits, n) {
+    if (checkImage(credits) && n == 1) {
+      document.getElementById("imageUrl1").src = credits;
     } else {
       document.getElementById("imageUrl1").alt = "Invalid Url Specified";
     }
-    if (checkImage(credits[1])) {
-      document.getElementById("imageUrl2").src = credits[1];
+    if (checkImage(credits[1]) && n == 2) {
+      document.getElementById("imageUrl2").src = credits;
     } else {
       document.getElementById("imageUrl2").alt = "Invalid Url Specified";
     }
-    if (checkImage(credits[2])) {
-      document.getElementById("imageUrl3").src = credits[2];
+    if (checkImage(credits[2]) && n == 3) {
+      document.getElementById("imageUrl3").src = credits;
     } else {
       document.getElementById("imageUrl3").alt = "Invalid Url Specified";
     }
-    if (checkImage(credits[3])) {
-      document.getElementById("imageUrl4").src = credits[3];
+    if (checkImage(credits[3]) && n == 4) {
+      document.getElementById("imageUrl4").src = credits;
     } else {
       document.getElementById("imageUrl4").alt = "Invalid Url Specified";
     }
+  }
+
+  const signs = [
+    '\u0ABE',
+    '\u0ABF',
+    '\u0AC0',
+    '\u0AC1',
+    '\u0AC2',
+    '\u0AC3',
+    '\u0AC4',
+    '\u0AC5',
+    '\u0AC6',
+    '\u0AC7',
+    '\u0AC8',
+    '\u0AC9',
+    '\u0ACA',
+    '\u0ACB',
+    '\u0ACC',
+    '\u0ACD',
+    '\u0ACE',
+    '\u0ACF',
+    '\u0ABC',
+    '\u0A81',
+    '\u0A82',
+    '\u0A83',
+  ];
+
+  const limiters = ['.', '"', '\'', '`', '!', ';', ', ', '?'];
+
+  let virama = '\u0ACD';
+
+  function syllabify(text) {
+    let lst_chars = [];
+    for (let char of text) {
+      if (limiters.includes(char)) {
+        lst_chars[lst_chars.length - 1] = char;
+        console.log(lst_chars);
+        console.log(char);
+      } else if (signs.includes(char)) {
+        lst_chars[lst_chars.length - 1] = lst_chars[lst_chars.length - 1] + char;
+        console.log(lst_chars);
+      } else {
+        try {
+          if (lst_chars[lst_chars.length - 1].slice(-1) == virama) {
+            lst_chars[lst_chars.length - 1] = lst_chars[lst_chars.length - 1] + char;
+          } else {
+            lst_chars.push(char);
+          }
+        } catch (IndexError) {
+          lst_chars.push(char);
+        }
+      }
+    }
+    return lst_chars;
   }
 
   const form = document.querySelector('form');
