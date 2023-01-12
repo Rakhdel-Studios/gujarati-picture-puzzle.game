@@ -6,4 +6,6 @@ There are not enough Gujarati focused puzzle games that are easily accessible fo
 
 This game brings the classic 4-picture-1-word puzzle format to the Gujarati community for joy and amusement.
 
+![Download from Google Play Store](./google-play-badge.png)
+
 ## Enjoy! 🙏
