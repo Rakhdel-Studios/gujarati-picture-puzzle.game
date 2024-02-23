@@ -8,4 +8,8 @@ This game brings the classic 4-picture-1-word puzzle format to the Gujarati comm
 
 [![Download from Google Play Store](./google-play-badge.png)](https://play.google.com/store/apps/details?id=com.RakhdelStudios.GujaratiPicturePuzzle)
 
-## Enjoy! 🙏
+## Enjoy! 😉
+
+Please share feedback at <a href="mailto:Rakhdel.Studios@gmail.com" target="_blank">Rakhdel.Studios@gmail.com</a>
+
+Thank you 🙏
